@@ -31,9 +31,34 @@ class _MycalculatorhomeState extends State<Mycalculatorhome> {
           if (_input.isEmpty) _input = "0";
           _output = _input;
         }
+      }else if (value == "%") {
+        if (_input.isNotEmpty) {
+          num2 = double.parse(_input);
+
+          // If no operator used, just divide by 100
+          if (_ope.isEmpty) {
+            _output = (num2 / 100).toString();
+          } else {
+            // Calculator-style percentage
+            if (_ope == "+") {
+              _output = (num1 + (num1 * num2 / 100)).toString();
+            } else if (_ope == "-") {
+              _output = (num1 - (num1 * num2 / 100)).toString();
+            } else if (_ope == "*") {
+              _output = (num1 * (num2 / 100)).toString();
+            } else if (_ope == "÷") {
+              _output = (num1 / (num2 / 100)).toString();
+            }
+          }
+
+          _input = _output;  // Update input with result
+          _ope = "";         // Clear operator
+          num1 = double.parse(_output);  // Update num1
+        }
       }
 
-      else if (["+", "-", "*", "÷", "%"].contains(value)) {
+
+      else if (["+", "-", "*", "÷",].contains(value)) {
         num1 = double.parse(_input);
         _ope = value;
         _input = "";
@@ -49,8 +74,6 @@ class _MycalculatorhomeState extends State<Mycalculatorhome> {
           _output = (num1 * num2).toString();
         } else if (_ope == "÷") {
           _output = num2 != 0 ? (num1 / num2).toString() : "Cannot divide by zero";
-        } else if (_ope == "%") {
-          _output = ((num1 / num2) * 100).toString();
         }
 
         _input = _output;
@@ -71,28 +94,32 @@ class _MycalculatorhomeState extends State<Mycalculatorhome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
       body: Padding(
         padding: const EdgeInsets.all(3.0),
         child: SafeArea(
           child: Column(
             children: [
               Expanded(
-                child: Container(
-                  alignment: Alignment.bottomRight,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      (_ope.isNotEmpty && _input.isNotEmpty ) ? Text(
-                        '$num1 $_ope $_input',
-                        style: TextStyle(color: Colors.white, fontSize: 24),
-                      ) : SizedBox(),
-                      SizedBox(height: 10),
-                      Text(
-                        _output,
-                        style: TextStyle(color: Colors.white, fontSize: 50),
-                      ),
-                    ],
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    alignment: Alignment.bottomRight,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        (num1 != 0 && _ope.isNotEmpty)
+                            ? Text(
+                          '$num1 $_ope $_input',
+                          style: TextStyle(color: Colors.white, fontSize: 24),
+                        )
+                            : SizedBox(),
+                        SizedBox(height: 10),
+                        Text(
+                          _output,
+                          style: TextStyle(color: Colors.white, fontSize: 60),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -115,18 +142,18 @@ class _MycalculatorhomeState extends State<Mycalculatorhome> {
               Row(
                 children: [
                   battonWidgets(
-                    onClick: ()=>battonPress('1'),
-                    text: '1',
+                    onClick: ()=>battonPress('7'),
+                    text: '7',
                     fontColor: Colors.green,
                   ),
                   battonWidgets(
-                    onClick: ()=>battonPress('2'),
-                    text: '2',
+                    onClick: ()=>battonPress('8'),
+                    text: '8',
                     fontColor: Colors.green,
                   ),
                   battonWidgets(
-                    onClick: ()=>battonPress('3'),
-                    text: '3',
+                    onClick: ()=>battonPress('9'),
+                    text: '9',
                     fontColor: Colors.green,
                   ),
                   battonWidgets(onClick: ()=>battonPress('*'), text: '✱', color: Colors.green),
@@ -155,18 +182,18 @@ class _MycalculatorhomeState extends State<Mycalculatorhome> {
               Row(
                 children: [
                   battonWidgets(
-                    onClick: ()=>battonPress('7'),
-                    text: '7',
+                    onClick: ()=>battonPress('1'),
+                    text: '1',
                     fontColor: Colors.green,
                   ),
                   battonWidgets(
-                    onClick: ()=>battonPress('8'),
-                    text: '8',
+                    onClick: ()=>battonPress('2'),
+                    text: '2',
                     fontColor: Colors.green,
                   ),
                   battonWidgets(
-                    onClick: ()=>battonPress('9'),
-                    text: '9',
+                    onClick: ()=>battonPress('3'),
+                    text: '3',
                     fontColor: Colors.green,
                   ),
                   battonWidgets(onClick: ()=>battonPress('+'), text: '+', color: Colors.green),

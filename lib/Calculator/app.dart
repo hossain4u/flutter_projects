@@ -1,10 +1,5 @@
-import 'package:calculator/Calculator/MyCalculatorHome.dart';
 import 'package:flutter/material.dart';
-
-void main(){
-  runApp(MyApps());
-
-}
+import 'MyCalculatorHome.dart';
 
 class MyApps extends StatelessWidget {
   const MyApps({super.key});
@@ -12,11 +7,13 @@ class MyApps extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(
-        brightness: Brightness.dark,
-      ),
-      title: 'My Calculator',
+      title: 'Calculator',
       debugShowCheckedModeBanner: false,
+      themeMode: ThemeMode.system,
+      theme: ThemeData.light(),
+      darkTheme: ThemeData.dark(
+
+      ),
       home: Mycalculatorhome(),
     );
   }
